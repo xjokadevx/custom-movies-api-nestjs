@@ -1,4 +1,4 @@
-import { IGenericResult } from '../../shared/interfaces/genericResult.interface';
+import { IGenericResult } from '../interfaces/genericResult.interface';
 
 export interface IEncryptServiceInterface {
   encryptWithAES_RSA(to_encrypt: string): Promise<IGenericResult>;

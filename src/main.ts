@@ -2,8 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
+import helmet from 'helmet';
+import { ExceptionsInterceptor } from './interface/interceptors/exception.interceptor';
+import { CustomLogger } from './shared/logger/logger.service';
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('CONEXA SWAPI CHALLENGE API')
@@ -14,6 +20,15 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory, {
     jsonDocumentUrl: 'swagger/json',
+  });
+  const logger = app.get(CustomLogger);
+
+  app.useGlobalFilters(new ExceptionsInterceptor());
+  app.useLogger(logger);
+  app.use(helmet());
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,POST,DELETE',
   });
 
   await app.listen(process.env.PORT ?? 3000);

@@ -1,4 +1,4 @@
-import { IGenericResult } from './../../shared/interfaces/genericResult.interface';
+import { IGenericResult } from '../interfaces/genericResult.interface';
 
 export interface IJwtServiceInterface {
   sign(payload: any): Promise<IGenericResult>;
