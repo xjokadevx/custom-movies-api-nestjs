@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as forge from 'node-forge';
 
-import { IGenericResult } from '../../shared/interfaces/genericResult.interface';
+import { IGenericResult } from '../../domain/interfaces/genericResult.interface';
 import constants from '../../shared/config/constants';
 import { IEncryptServiceInterface } from 'src/domain/services/encrypt.service.interface';
 import { EnvConfig } from '../../shared/config/env';

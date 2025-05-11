@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { IGenericResult } from 'src/shared/interfaces/genericResult.interface';
+import { IGenericResult } from 'src/domain/interfaces/genericResult.interface';
 import { EncryptDecryptService } from '../encryption/encrypt-decrypt.service';
 import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
+import { IJwtPayload } from 'src/domain/interfaces/jwt-payload.interface';
 
 @Injectable()
 export class JwtCustomService implements IJwtServiceInterface {
@@ -38,10 +39,10 @@ export class JwtCustomService implements IJwtServiceInterface {
       if (!tokenDecrypted.result) {
         throw new Error(tokenDecrypted.data);
       }
-      this.jwtService.verify(tokenDecrypted.data);
+      const result = this.jwtService.verify<IJwtPayload>(tokenDecrypted.data);
       return {
         result: true,
-        data: 'ok',
+        data: result.id,
       };
     } catch (error) {
       console.error('Error verifying token', error);
