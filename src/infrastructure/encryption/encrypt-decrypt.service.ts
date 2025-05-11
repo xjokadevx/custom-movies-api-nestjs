@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as forge from 'node-forge';
 
-import { IEncryptResult } from '../../shared/interfaces/generic';
+import { IGenericResult } from '../../shared/interfaces/genericResult.interface';
 import constants from '../../shared/config/constants';
 import { IEncryptServiceInterface } from 'src/domain/services/encrypt.service.interface';
 import { EnvConfig } from '../../shared/config/env';
@@ -14,7 +14,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
     if (!result_aeskey) throw new Error('AES_KEY not found');
     this.AES_KEY = result_aeskey.data;
   }
-  encryptWithAES_RSA(to_encrypt: string): Promise<IEncryptResult> {
+  encryptWithAES_RSA(to_encrypt: string): Promise<IGenericResult> {
     try {
       const iv = forge.random.getBytesSync(constants.AES_LENGTH);
       const cipher = forge.cipher.createCipher('AES-CBC', this.AES_KEY);
@@ -25,7 +25,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
       return Promise.resolve({
         result: true,
         data: encryptedData,
-      } as IEncryptResult);
+      } as IGenericResult);
     } catch (error) {
       console.error('ERROR ENCRYPTING DATA USING AES_RSA', error);
       return Promise.resolve({
@@ -34,7 +34,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
       });
     }
   }
-  decryptWithAES_RSA(to_decrypt: string): Promise<IEncryptResult> {
+  decryptWithAES_RSA(to_decrypt: string): Promise<IGenericResult> {
     try {
       const rawEncrypted = forge.util.decode64(to_decrypt);
       const ivReceived = rawEncrypted.slice(0, 16);
@@ -59,7 +59,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
     }
   }
 
-  private decryptWithRSA(data: string): IEncryptResult {
+  private decryptWithRSA(data: string): IGenericResult {
     try {
       const privateKey = forge.pki.privateKeyFromPem(
         this.env.rsaPrivateKey as string,
