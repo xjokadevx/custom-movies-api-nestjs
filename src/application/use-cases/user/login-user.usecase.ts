@@ -2,8 +2,8 @@ import { Inject } from '@nestjs/common';
 
 import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
-import { CustomLogger } from 'src/shared/logger/logger.service';
-import { LoginUserDto } from 'src/interface/dtos/requests/login-request.dto';
+import { CustomLogger } from '../../../shared/logger/logger.service';
+import { LoginUserDto } from '../../../interface/dtos/requests/login-request.dto';
 
 export class LoginUserUseCase {
   constructor(
