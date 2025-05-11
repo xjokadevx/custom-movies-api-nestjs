@@ -6,14 +6,12 @@ import { JwtCustomService } from '../src/infrastructure/auth/jwt.service';
 import { SharedModule } from '../src/shared.module';
 import { EncryptDecryptService } from '../src/infrastructure/encryption/encrypt-decrypt.service';
 import constants from '../src/shared/config/constants';
-import { AuthController } from '../src/interface/controllers/auth.controller';
-import { LoginUserUseCase } from '../src/application/use-cases/user/login-user.usecase';
 
-describe('AppController', () => {
-  let authController: AuthController;
+describe('JwtService', () => {
+  let service: JwtCustomService;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       imports: [
         SharedModule,
         JwtModule.registerAsync({
@@ -35,17 +33,13 @@ describe('AppController', () => {
           },
         }),
       ],
-      controllers: [AuthController],
-      providers: [LoginUserUseCase, JwtCustomService],
-      exports: [JwtCustomService],
+      providers: [JwtCustomService],
     }).compile();
 
-    authController = app.get<AuthController>(AuthController);
+    service = module.get<JwtCustomService>(JwtCustomService);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(authController.health()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 });

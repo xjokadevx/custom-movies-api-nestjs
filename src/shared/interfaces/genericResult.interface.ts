@@ -1,4 +1,4 @@
-export interface IEncryptResult {
+export interface IGenericResult {
   result: boolean;
   data: string;
 }

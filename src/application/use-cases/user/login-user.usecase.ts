@@ -1,21 +1,19 @@
 import { Inject } from '@nestjs/common';
 import { LoginUserDto } from 'src/application/dto/login-user.dto';
-import { IEncryptServiceInterface } from 'src/domain/services/encrypt.service.interface';
-import { EncryptDecryptService } from '../../../infrastructure/encryption/encrypt-decrypt.service';
+import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
+import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
 
 export class LoginUserUseCase {
   constructor(
-    @Inject(EncryptDecryptService)
-    private readonly encryptDecryptService: IEncryptServiceInterface,
+    @Inject(JwtCustomService)
+    private readonly jwtService: IJwtServiceInterface,
   ) {}
 
   async execute(body: LoginUserDto): Promise<string> {
-    const result_encrypt = await this.encryptDecryptService.encryptWithAES_RSA(
-      body.password,
-    );
-    if (!result_encrypt.result) {
-      return result_encrypt.data;
+    const tokenResult = await this.jwtService.sign(body);
+    if (!tokenResult.result) {
+      throw new Error(tokenResult.data);
     }
-    return result_encrypt.data;
+    return tokenResult.data;
   }
 }
