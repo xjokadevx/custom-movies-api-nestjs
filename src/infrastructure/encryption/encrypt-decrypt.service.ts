@@ -61,7 +61,9 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
 
   private decryptWithRSA(data: string): IEncryptResult {
     try {
-      const privateKey = forge.pki.privateKeyFromPem(constants.RSA_PRIVATE_KEY);
+      const privateKey = forge.pki.privateKeyFromPem(
+        this.env.rsaPrivateKey as string,
+      );
       const data_decoded = forge.util.decode64(data);
       const decrypted = privateKey.decrypt(data_decoded);
       return {

@@ -28,4 +28,12 @@ export class EnvConfig {
   get port() {
     return this.config.get<number>('PORT') || 3000;
   }
+
+  get rsaPublicKey() {
+    return this.config.get<string>('RSA_PUBLIC_KEY');
+  }
+
+  get rsaPrivateKey() {
+    return this.config.get<string>('RSA_PRIVATE_KEY');
+  }
 }
