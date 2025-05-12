@@ -9,10 +9,15 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { ErrorResponseDto } from '../dtos/responses/exception-response.dto';
+import { SignUpUserDto } from '../dtos/requests/signup-request.dto';
+import { SignUpUseCase } from '../../application/use-cases/user/signup-user.usecase';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly loginUseCase: LoginUserUseCase) {}
+  constructor(
+    private readonly loginUseCase: LoginUserUseCase,
+    private readonly signupUseCase: SignUpUseCase,
+  ) {}
 
   @ApiResponse({ status: 200, type: AuthResponseDto })
   @ApiBadRequestResponse({
@@ -32,11 +37,20 @@ export class AuthController {
     return { token: res };
   }
 
+  @ApiResponse({ status: 200, type: AuthResponseDto })
+  @ApiBadRequestResponse({
+    description: 'Invalid fields',
+    type: ErrorResponseDto,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    type: ErrorResponseDto,
+  })
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('signup')
-  async signup(@Body() dto: LoginUserDto): Promise<AuthResponseDto> {
+  async signup(@Body() dto: SignUpUserDto): Promise<AuthResponseDto> {
     console.log(dto);
-    const res = await this.loginUseCase.execute(dto);
+    const res = await this.signupUseCase.execute(dto);
     console.info(res);
     return { token: res };
   }

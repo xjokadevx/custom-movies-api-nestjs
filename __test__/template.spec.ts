@@ -1,43 +1,44 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 
-import { JwtCustomService } from '../src/infrastructure/auth/jwt.service';
 import { SharedModule } from '../src/shared.module';
-import { EncryptDecryptService } from '../src/infrastructure/encryption/encrypt-decrypt.service';
-import constants from '../src/shared/config/constants';
 import { AuthController } from '../src/interface/controllers/auth.controller';
 import { LoginUserUseCase } from '../src/application/use-cases/user/login-user.usecase';
+import { JWTCustomModule } from '../src/jwt.module';
+import { UserModule } from '../src/user.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { MongooseModule } from '@nestjs/mongoose';
+import {
+  User,
+  UserSchema,
+} from '../src/infrastructure/database/schemas/user.schema';
 
 describe('AppController', () => {
   let authController: AuthController;
+  let mongoServer: MongoMemoryServer;
+  let app: TestingModule;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+    app = await Test.createTestingModule({
       imports: [
         SharedModule,
-        JwtModule.registerAsync({
-          imports: [SharedModule],
-          inject: [ConfigService, EncryptDecryptService],
-          useFactory: async (
-            config: ConfigService,
-            encryptDecryptService: EncryptDecryptService,
-          ) => {
-            const encryptedSecret = config.get<string>('JWT_SECRET');
-            const decryptedSecret =
-              await encryptDecryptService.decryptWithAES_RSA(
-                encryptedSecret as string,
-              );
-            return {
-              secret: decryptedSecret.data,
-              signOptions: { expiresIn: constants.JWT_EXPIRES_IN },
-            };
-          },
+        JWTCustomModule,
+        MongooseModule.forRoot(uri),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        UserModule,
+        ThrottlerModule.forRoot({
+          throttlers: [
+            {
+              ttl: 0,
+              limit: 0,
+            },
+          ],
         }),
       ],
       controllers: [AuthController],
-      providers: [LoginUserUseCase, JwtCustomService],
-      exports: [JwtCustomService],
+      providers: [LoginUserUseCase],
     }).compile();
 
     authController = app.get<AuthController>(AuthController);
@@ -47,5 +48,10 @@ describe('AppController', () => {
     it('should return "Hello World!"', () => {
       expect(authController.health()).toBe('Hello World!');
     });
+  });
+
+  afterAll(async () => {
+    await app.close();
+    await mongoServer.stop();
   });
 });

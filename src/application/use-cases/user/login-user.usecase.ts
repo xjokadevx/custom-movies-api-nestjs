@@ -13,7 +13,7 @@ export class LoginUserUseCase {
   ) {}
 
   async execute(body: LoginUserDto): Promise<string> {
-    this.logger.log(`User logged in: ${body.username}`, LoginUserUseCase.name);
+    this.logger.log(`User logged in: ${body.phone}`, LoginUserUseCase.name);
     const tokenResult = await this.jwtService.sign(body);
     if (!tokenResult.result) {
       throw new Error(tokenResult.data);
