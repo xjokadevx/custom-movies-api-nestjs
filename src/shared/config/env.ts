@@ -36,4 +36,12 @@ export class EnvConfig {
   get rsaPrivateKey() {
     return this.config.get<string>('RSA_PRIVATE_KEY');
   }
+
+  get mongoUri() {
+    return this.config.get<string>('MONGO_URI');
+  }
+
+  get mongoDb() {
+    return this.config.get<string>('MONGO_DB');
+  }
 }
