@@ -59,11 +59,31 @@ export class MovieServiceImpl implements IMovieRepository {
       };
     }
   }
-  getAllMovies(): Promise<MovieEntity[]> {
-    throw new Error('Method not implemented.');
+  async getAllMovies(): Promise<{ data: MovieEntity[] | []; result: boolean }> {
+    try {
+      const result = await this.movieModel.find();
+      if (!result) {
+        return {
+          data: [],
+          result: false,
+        };
+      }
+      const moviesToDomain = result.map((movie) => MovieMapper.toDomain(movie));
+      return {
+        data: moviesToDomain as MovieEntity[],
+        result: true,
+      };
+    } catch (error) {
+      console.error('Error getting movies', error);
+      this.logger.error('Error getting movies', error, MovieServiceImpl.name);
+      return {
+        data: [],
+        result: false,
+      };
+    }
   }
-  getMovieByEpisodeId(id: string): Promise<MovieEntity> {
-    console.info(id);
+  getMovieByEpisodeId(episodeId: string, userId: string): Promise<MovieEntity> {
+    console.info(episodeId, userId);
     throw new Error('Method not implemented.');
   }
   updateMovie(id: string, movie: MovieEntity): Promise<MovieEntity> {
