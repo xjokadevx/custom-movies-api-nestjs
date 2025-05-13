@@ -21,7 +21,9 @@ export class MovieServiceImpl implements IMovieRepository {
   ): Promise<{ data: string; result: boolean }> {
     try {
       const moviesToSave = movies.map((movie) => MovieMapper.toSaveDoc(movie));
-      const result = await this.movieModel.insertMany(moviesToSave);
+      const result = await this.movieModel.insertMany(moviesToSave, {
+        ordered: false,
+      });
       if (!result) {
         return {
           data: 'Error creating movie',
