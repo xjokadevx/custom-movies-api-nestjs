@@ -16,12 +16,22 @@ import {
   User,
   UserSchema,
 } from './infrastructure/database/schemas/user.schema';
+import {
+  Movie,
+  MovieSchema,
+} from './infrastructure/database/schemas/movie.schema';
 
 @Global()
 @Module({
   imports: [
     SharedModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      {
+        name: Movie.name,
+        schema: MovieSchema,
+      },
+    ]),
     MongooseModule.forRootAsync({
       imports: [SharedModule],
       inject: [ConfigService, EncryptDecryptService],

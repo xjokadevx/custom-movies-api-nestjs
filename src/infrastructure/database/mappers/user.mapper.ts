@@ -1,4 +1,3 @@
-// src/infrastructure/database/mappers/user.mapper.ts
 import { UserDocument } from '../schemas/user.schema';
 import { UserEntity } from '../../../domain/models/user.entity';
 
@@ -14,7 +13,7 @@ export class UserMapper {
     );
   }
 
-  static toPersistence(user: UserEntity): Partial<UserDocument> {
+  static toSaveDoc(user: UserEntity): Partial<UserDocument> {
     return {
       roleId: user.roleId,
       name: user.name,

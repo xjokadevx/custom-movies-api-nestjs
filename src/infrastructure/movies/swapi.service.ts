@@ -20,11 +20,11 @@ export class SwapiService implements IMovieServices {
   ) {
     this.SWAPI_URL = this.env.swapiUrl as string;
   }
-  async getAllMovies(): Promise<ISwapiResponse> {
+  async getAllMovies(page: string): Promise<ISwapiResponse> {
     try {
-      console.log('`${this.SWAPI_URL}/fillms` :>> ', `${this.SWAPI_URL}/films`);
+      this.logger.log('Getting movies', SwapiService.name);
       const result = await this.httpService.axiosRef.get<ISwapiResponse>(
-        `${this.SWAPI_URL}/films`,
+        `${this.SWAPI_URL}/films?=page=${page}`,
       );
       if (!result || result.status !== 200) {
         throw new NotFoundException('Error getting movies');

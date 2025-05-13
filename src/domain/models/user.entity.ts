@@ -6,14 +6,4 @@ export class UserEntity {
     public pwd: string,
     public readonly _id?: any,
   ) {}
-
-  updateName(newName: string) {
-    this.name = newName;
-  }
-  updatePhone(newPhone: string) {
-    this.phone = newPhone;
-  }
-  updatePwd(newPwd: string) {
-    this.pwd = newPwd;
-  }
 }
