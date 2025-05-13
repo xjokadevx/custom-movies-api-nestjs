@@ -11,7 +11,7 @@ export class GetAllMovieUseCase {
 
   async execute() {
     this.logger.log('Get all movies', GetAllMovieUseCase.name);
-    const resultService = await this.swapiService.getAllMovies();
+    const resultService = await this.swapiService.getAllMovies('1');
     return {
       result: true,
       data: resultService.results,

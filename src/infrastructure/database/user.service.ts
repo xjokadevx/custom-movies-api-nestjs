@@ -31,9 +31,7 @@ export class UserServiceImpl implements IUserRepository {
   }
   async save(user: UserEntity): Promise<{ data: string; result: boolean }> {
     try {
-      const result = await this.userModel.create(
-        UserMapper.toPersistence(user),
-      );
+      const result = await this.userModel.create(UserMapper.toSaveDoc(user));
       if (!result) {
         return {
           data: 'Error creating user',

@@ -5,6 +5,7 @@ import { AuthController } from './interface/controllers/auth.controller';
 import { SharedModule } from './shared.module';
 import { UserModule } from './user.module';
 import { MoviesModule } from './movies.module';
+import { CronJobsModule } from './cron-jobs.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MoviesModule } from './movies.module';
         },
       ],
     }),
+    CronJobsModule,
   ],
   controllers: [AuthController],
 })
