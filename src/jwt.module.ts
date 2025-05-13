@@ -37,6 +37,10 @@ import { JwtAuthMiddleware } from './interface/middleware/jwt-auth.middleware';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
+    {
+      useClass: JwtCustomService,
+      provide: 'IJwtServiceInterface',
+    },
   ],
   exports: [JwtCustomService],
 })

@@ -21,8 +21,13 @@ export class UserImplementation implements IUserRepository {
     throw new Error('Method not implemented.');
   }
   async findByPhone(phone: string): Promise<UserEntity | null> {
-    const user = await this.userModel.findOne({ phone });
-    return user ? UserMapper.toDomain(user) : null;
+    try {
+      const user = await this.userModel.findOne<UserDocument>({ phone });
+      return user ? UserMapper.toDomain(user) : null;
+    } catch (error) {
+      console.error('Error finding user', error);
+      return null;
+    }
   }
   async save(user: UserEntity): Promise<{ data: string; result: boolean }> {
     try {

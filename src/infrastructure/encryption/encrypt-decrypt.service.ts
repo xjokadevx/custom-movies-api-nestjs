@@ -52,10 +52,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
       });
     } catch (error) {
       console.error('ERROR DECRYPTING DATA USING AES_RSA', error);
-      return Promise.resolve({
-        result: false,
-        data: 'Decryption AES_RSA failed',
-      });
+      throw new Error('Invalid token. Please log in again.');
     }
   }
 
