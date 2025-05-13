@@ -13,6 +13,34 @@ export class JwtCustomService implements IJwtServiceInterface {
     private readonly jwtService: JwtService,
     private readonly encryptDecryptService: EncryptDecryptService,
   ) {}
+  compare(token: string, hash: string): IGenericResult {
+    try {
+      const resultDecrypted =
+        this.encryptDecryptService.decryptWithAES_RSA(token);
+      if (!resultDecrypted.result) {
+        throw new BadRequestException(
+          'token encrypted wrong.',
+          resultDecrypted.data,
+        );
+      }
+      if (resultDecrypted.data === hash) {
+        return {
+          result: true,
+          data: 'ok',
+        };
+      }
+      return {
+        result: false,
+        data: 'Incorrect ',
+      };
+    } catch (error) {
+      console.error('Error comparing token', error);
+      return {
+        result: false,
+        data: 'Error comparing token',
+      };
+    }
+  }
   sign(payload: any): IGenericResult {
     try {
       const token = this.jwtService.sign(payload, {

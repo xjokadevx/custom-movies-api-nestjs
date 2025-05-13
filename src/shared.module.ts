@@ -1,12 +1,13 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { Agent } from 'https';
 import { EncryptDecryptService } from './infrastructure/encryption/encrypt-decrypt.service';
 import { EnvConfig } from './shared/config/env';
 import { LoggerModule } from './logger.module';
 import { SwapiService } from './infrastructure/movies/swapi.service';
 
+@Global()
 @Module({
   imports: [
     HttpModule.register({
