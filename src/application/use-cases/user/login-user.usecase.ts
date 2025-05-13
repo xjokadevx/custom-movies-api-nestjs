@@ -1,4 +1,4 @@
-import { BadRequestException, Inject } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject } from '@nestjs/common';
 
 import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
@@ -21,7 +21,14 @@ export class LoginUserUseCase {
     if (!user) {
       throw new BadRequestException('Phone not found. Please sign up first.');
     }
-    this.logger.log(`User logged in: ${body.phone}`, LoginUserUseCase.name);
+    const resultPwd = this.jwtService.compare(user.pwd, body.password);
+    if (!resultPwd.result) {
+      throw new ConflictException('Invalid data. Please try again.');
+    }
+    this.logger.log(
+      `User logged in: ${body.phone} - ${body.password}`,
+      LoginUserUseCase.name,
+    );
     const tokenResult = this.jwtService.sign({
       id: user?._id as string,
       phone: user.phone,
