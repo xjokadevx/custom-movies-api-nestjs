@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { LoginUserDto } from '../dtos/requests/login-request.dto';
 import { LoginUserUseCase } from '../../application/use-cases/user/login-user.usecase';
 import { Throttle } from '@nestjs/throttler';
@@ -30,6 +30,7 @@ export class AuthController {
 
   @ApiResponse({ status: 200, type: AuthResponseDto })
   @Post('login')
+  @HttpCode(200)
   async login(@Body() dto: LoginUserDto): Promise<AuthResponseDto> {
     const res = await this.loginUseCase.execute(dto);
     return { token: res };
@@ -37,6 +38,7 @@ export class AuthController {
 
   @ApiResponse({ status: 200, type: AuthResponseDto })
   @Post('signup')
+  @HttpCode(200)
   async signup(@Body() dto: SignUpUserDto): Promise<AuthResponseDto> {
     const res = await this.signupUseCase.execute(dto);
     return { token: res };

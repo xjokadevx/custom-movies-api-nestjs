@@ -1,4 +1,3 @@
-// src/infrastructure/database/mongodb.module.ts
 import {
   Module,
   Global,

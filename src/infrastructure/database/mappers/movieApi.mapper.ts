@@ -1,6 +1,7 @@
 import { MovieEntity } from 'src/domain/models/movie.entity';
 import { MovieDocument } from '../schemas/movie.schema';
 import { IMovie } from 'src/infrastructure/movies/swapi-response.interface';
+import { NewMovieRequestDto } from 'src/interface/dtos/requests/newMovie-request.dto';
 
 export class MovieMapper {
   static toDomain(doc: MovieDocument): MovieEntity | null {
@@ -14,7 +15,7 @@ export class MovieMapper {
       doc.release_date,
     );
   }
-  static toSaveDoc(movie: IMovie): Partial<MovieDocument> {
+  static toSaveDoc(movie: IMovie | NewMovieRequestDto): Partial<MovieDocument> {
     return {
       title: movie.title,
       episode_id: movie.episode_id,
@@ -27,6 +28,9 @@ export class MovieMapper {
       starships: movie.starships,
       vehicles: movie.vehicles,
       species: movie.species,
+      created: movie.created,
+      edited: movie.edited,
+      url: movie.url,
     };
   }
   static toMovieDetails(doc: MovieDocument): IMovie | null {

@@ -6,6 +6,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { MovieMapper } from './mappers/movieApi.mapper';
 import { CustomLogger } from 'src/shared/logger/logger.service';
 import { IMovie } from '../movies/swapi-response.interface';
+import { MovieRequestDto } from 'src/interface/dtos/requests/movie-request.dto';
+import { InternalServerErrorException } from '@nestjs/common';
+import { NewMovieRequestDto } from 'src/interface/dtos/requests/newMovie-request.dto';
 
 export class MovieServiceImpl implements IMovieRepository {
   constructor(
@@ -38,9 +41,12 @@ export class MovieServiceImpl implements IMovieRepository {
       };
     }
   }
-  async save(movie: IMovie): Promise<{ data: string; result: boolean }> {
+  async saveMovie(
+    movie: NewMovieRequestDto,
+  ): Promise<{ data: string; result: boolean }> {
     try {
       const result = await this.movieModel.create(MovieMapper.toSaveDoc(movie));
+      console.info(result);
       if (!result) {
         return {
           data: 'Error creating movie',
@@ -94,12 +100,62 @@ export class MovieServiceImpl implements IMovieRepository {
     }
     return MovieMapper.toMovieDetails(result);
   }
-  updateMovie(id: string, movie: MovieEntity): Promise<MovieEntity> {
-    console.info(id, movie);
-    throw new Error('Method not implemented.');
+  async updateMovie(
+    dto: MovieRequestDto,
+    episode_id: string,
+  ): Promise<MovieEntity | null> {
+    try {
+      this.logger.log(
+        'Updating movie by episode id: ' + episode_id,
+        MovieServiceImpl.name,
+      );
+      const result = await this.movieModel.findOneAndUpdate(
+        { episode_id },
+        dto,
+      );
+      console.log('result :>> ', result);
+      if (!result) {
+        return null;
+      }
+      return MovieMapper.toDomain(result);
+    } catch (error) {
+      console.error('Error updating movie', error);
+      this.logger.error('Error updating movie', error, MovieServiceImpl.name);
+      throw new InternalServerErrorException('Error updating movie');
+    }
   }
-  deleteMovie(id: string): Promise<{ data: string; result: boolean }> {
-    console.info(id);
-    throw new Error('Method not implemented.');
+
+  async deleteMovieByEpisodeId(
+    episode_id: string,
+  ): Promise<{ data: string; result: boolean }> {
+    this.logger.log(
+      'Deleting movie by episode id: ' + episode_id,
+      MovieServiceImpl.name,
+    );
+    try {
+      const result = await this.movieModel.deleteOne({ episode_id });
+      if (!result) {
+        return {
+          data: 'Error deleting movie',
+          result: false,
+        };
+      }
+      if (result.deletedCount === 0) {
+        return {
+          data: 'Movie not found',
+          result: false,
+        };
+      }
+      return {
+        data: 'Movie deleted',
+        result: true,
+      };
+    } catch (error) {
+      this.logger.error('Error deleting movie', error, MovieServiceImpl.name);
+      return {
+        data: 'Error deleting movie',
+        result: false,
+      };
+    }
   }
 }
