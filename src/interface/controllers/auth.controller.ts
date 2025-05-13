@@ -13,6 +13,15 @@ import { SignUpUserDto } from '../dtos/requests/signup-request.dto';
 import { SignUpUseCase } from '../../application/use-cases/user/signup-user.usecase';
 
 @Controller('auth')
+@ApiBadRequestResponse({
+  description: 'Invalid fields',
+  type: ErrorResponseDto,
+})
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized',
+  type: ErrorResponseDto,
+})
+@Throttle({ default: { limit: 10, ttl: 60000 } })
 export class AuthController {
   constructor(
     private readonly loginUseCase: LoginUserUseCase,
@@ -20,15 +29,6 @@ export class AuthController {
   ) {}
 
   @ApiResponse({ status: 200, type: AuthResponseDto })
-  @ApiBadRequestResponse({
-    description: 'Invalid fields',
-    type: ErrorResponseDto,
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
-    type: ErrorResponseDto,
-  })
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('login')
   async login(@Body() dto: LoginUserDto): Promise<AuthResponseDto> {
     const res = await this.loginUseCase.execute(dto);
@@ -36,15 +36,6 @@ export class AuthController {
   }
 
   @ApiResponse({ status: 200, type: AuthResponseDto })
-  @ApiBadRequestResponse({
-    description: 'Invalid fields',
-    type: ErrorResponseDto,
-  })
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
-    type: ErrorResponseDto,
-  })
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('signup')
   async signup(@Body() dto: SignUpUserDto): Promise<AuthResponseDto> {
     const res = await this.signupUseCase.execute(dto);

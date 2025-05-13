@@ -12,9 +12,12 @@ export class UserServiceImpl implements IUserRepository {
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
   ) {}
-  findById(id: string): Promise<UserEntity | null> {
-    console.error(id);
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<UserEntity | null> {
+    const result = await this.userModel.findById(id);
+    if (!result) {
+      return null;
+    }
+    return UserMapper.toDomain(result);
   }
   deleteById(id: string): Promise<void> {
     console.error(id);

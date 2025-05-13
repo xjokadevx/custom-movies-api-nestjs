@@ -25,12 +25,9 @@ export class LoginUserUseCase {
     if (!resultPwd.result) {
       throw new ConflictException('Invalid data. Please try again.');
     }
-    this.logger.log(
-      `User logged in: ${body.phone} - ${body.password}`,
-      LoginUserUseCase.name,
-    );
+    this.logger.log(`User logged in: ${body.phone}`, LoginUserUseCase.name);
     const tokenResult = this.jwtService.sign({
-      id: user?._id as string,
+      id: user._id as string,
       phone: user.phone,
     });
     if (!tokenResult.result) {

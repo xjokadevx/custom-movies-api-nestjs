@@ -15,6 +15,22 @@ export class Movie extends Document {
   producer: string;
   @Prop({ required: false })
   release_date: string;
+  @Prop({ required: false })
+  characters: [string];
+  @Prop({ required: false })
+  planets: [string];
+  @Prop({ required: false })
+  starships: [string];
+  @Prop({ required: false })
+  vehicles: [string];
+  @Prop({ required: false })
+  species: [string];
+  @Prop({ required: false })
+  created: string;
+  @Prop({ required: false })
+  edited: string;
+  @Prop({ required: false })
+  url: string;
 }
 export type MovieDocument = Movie & Document;
 export const MovieSchema = SchemaFactory.createForClass(Movie);

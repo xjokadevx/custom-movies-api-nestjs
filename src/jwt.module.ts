@@ -46,6 +46,6 @@ import { JwtAuthMiddleware } from './interface/middleware/jwt-auth.middleware';
 })
 export class JWTCustomModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(JwtAuthMiddleware).forRoutes('api/users', 'api/movies');
+    consumer.apply(JwtAuthMiddleware).forRoutes('api/movies');
   }
 }

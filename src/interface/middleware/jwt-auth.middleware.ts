@@ -20,7 +20,6 @@ export class JwtAuthMiddleware implements NestMiddleware {
 
     try {
       const payload = this.jwtService.verify(token);
-      console.info(payload);
       req['user'] = payload;
       next();
     } catch (err: unknown) {

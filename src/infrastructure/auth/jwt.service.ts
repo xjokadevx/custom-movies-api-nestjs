@@ -74,7 +74,7 @@ export class JwtCustomService implements IJwtServiceInterface {
     const result = this.jwtService.verify<IJwtPayload>(tokenDecrypted.data);
     return {
       result: true,
-      data: result.phone as string,
+      data: result.id,
     };
   }
 }
