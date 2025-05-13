@@ -16,12 +16,12 @@ import { JwtAuthMiddleware } from './interface/middleware/jwt-auth.middleware';
     JwtModule.registerAsync({
       imports: [SharedModule],
       inject: [ConfigService, EncryptDecryptService],
-      useFactory: async (
+      useFactory: (
         config: ConfigService,
         encryptDecryptService: EncryptDecryptService,
       ) => {
         const encryptedSecret = config.get<string>('JWT_SECRET');
-        const decryptedSecret = await encryptDecryptService.decryptWithAES_RSA(
+        const decryptedSecret = encryptDecryptService.decryptWithAES_RSA(
           encryptedSecret as string,
         );
         return {

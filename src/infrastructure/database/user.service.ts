@@ -7,7 +7,7 @@ import { UserEntity } from 'src/domain/models/user.entity';
 import { UserMapper } from './mappers/user.mapper';
 
 @Injectable()
-export class UserImplementation implements IUserRepository {
+export class UserServiceImpl implements IUserRepository {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,

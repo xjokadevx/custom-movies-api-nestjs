@@ -4,7 +4,7 @@ import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.inte
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
 import { CustomLogger } from '../../../shared/logger/logger.service';
 import { LoginUserDto } from '../../../interface/dtos/requests/login-request.dto';
-import { UserImplementation } from 'src/infrastructure/database/user.service';
+import { UserServiceImpl } from 'src/infrastructure/database/user.service';
 import { IUserRepository } from 'src/domain/repositories/user.repository';
 
 export class LoginUserUseCase {
@@ -12,7 +12,7 @@ export class LoginUserUseCase {
     @Inject(JwtCustomService)
     private readonly jwtService: IJwtServiceInterface,
     private readonly logger: CustomLogger,
-    @Inject(UserImplementation)
+    @Inject(UserServiceImpl)
     private readonly userRepository: IUserRepository,
   ) {}
 
@@ -22,7 +22,7 @@ export class LoginUserUseCase {
       throw new BadRequestException('Phone not found. Please sign up first.');
     }
     this.logger.log(`User logged in: ${body.phone}`, LoginUserUseCase.name);
-    const tokenResult = await this.jwtService.sign({
+    const tokenResult = this.jwtService.sign({
       id: user?._id as string,
       phone: user.phone,
     });

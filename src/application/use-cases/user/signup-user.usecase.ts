@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from '../../../domain/repositories/user.repository';
 import { UserEntity } from '../../../domain/models/user.entity';
-import { UserImplementation } from '../../../infrastructure/database/user.service';
+import { UserServiceImpl } from '../../../infrastructure/database/user.service';
 import { SignUpUserDto } from 'src/interface/dtos/requests/signup-request.dto';
 import { CustomLogger } from '../../../shared/logger/logger.service';
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
@@ -9,7 +9,7 @@ import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
 @Injectable()
 export class SignUpUseCase {
   constructor(
-    @Inject(UserImplementation)
+    @Inject(UserServiceImpl)
     private readonly userRepository: IUserRepository,
     private readonly logger: CustomLogger,
     private readonly jwtService: JwtCustomService,
@@ -23,11 +23,17 @@ export class SignUpUseCase {
       data.password,
     );
 
+    if (await this.userRepository.findByPhone(data.phone)) {
+      throw new BadRequestException('Phone already exists. Please validate.');
+    }
+
+    this.logger.log(`User signed up: ${data.phone}`, SignUpUseCase.name);
+
     const result = await this.userRepository.save(user);
     if (!result.result) {
       throw new BadRequestException(result.data);
     }
-    const tmpTkn = await this.jwtService.sign({ id: result.data });
+    const tmpTkn = this.jwtService.sign({ id: result.data });
     if (!tmpTkn.result) {
       throw new BadRequestException(tmpTkn.data);
     }
