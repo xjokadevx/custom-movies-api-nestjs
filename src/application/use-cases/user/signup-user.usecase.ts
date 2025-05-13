@@ -16,7 +16,7 @@ import { EncryptDecryptService } from 'src/infrastructure/encryption/encrypt-dec
 export class SignUpUseCase {
   constructor(
     @Inject(UserServiceImpl)
-    private readonly userRepository: IUserRepository,
+    private readonly userService: IUserRepository,
     private readonly logger: CustomLogger,
     private readonly jwtService: JwtCustomService,
     private readonly encryptService: EncryptDecryptService,
@@ -30,7 +30,7 @@ export class SignUpUseCase {
       data.password,
     );
 
-    if (await this.userRepository.findByPhone(data.phone)) {
+    if (await this.userService.findByPhone(data.phone)) {
       throw new BadRequestException('Phone already exists. Please validate.');
     }
 
@@ -40,7 +40,7 @@ export class SignUpUseCase {
       throw new InternalServerErrorException(pwdEncrypted.data);
     }
     user.pwd = pwdEncrypted.data;
-    const result = await this.userRepository.save(user);
+    const result = await this.userService.save(user);
     if (!result.result) {
       throw new BadRequestException(result.data);
     }

@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MovieMapper } from './mappers/movieApi.mapper';
 import { CustomLogger } from 'src/shared/logger/logger.service';
+import { IMovie } from '../movies/swapi-response.interface';
 
 export class MovieServiceImpl implements IMovieRepository {
   constructor(
@@ -13,7 +14,7 @@ export class MovieServiceImpl implements IMovieRepository {
     private readonly logger: CustomLogger,
   ) {}
   async saveMovies(
-    movies: MovieEntity[],
+    movies: IMovie[],
   ): Promise<{ data: string; result: boolean }> {
     try {
       const moviesToSave = movies.map((movie) => MovieMapper.toSaveDoc(movie));
@@ -37,7 +38,7 @@ export class MovieServiceImpl implements IMovieRepository {
       };
     }
   }
-  async save(movie: MovieEntity): Promise<{ data: string; result: boolean }> {
+  async save(movie: IMovie): Promise<{ data: string; result: boolean }> {
     try {
       const result = await this.movieModel.create(MovieMapper.toSaveDoc(movie));
       if (!result) {
@@ -82,9 +83,16 @@ export class MovieServiceImpl implements IMovieRepository {
       };
     }
   }
-  getMovieByEpisodeId(episodeId: string, userId: string): Promise<MovieEntity> {
-    console.info(episodeId, userId);
-    throw new Error('Method not implemented.');
+  async getMovieByEpisodeId(episode_id: string): Promise<IMovie | null> {
+    this.logger.log(
+      'Get movie by episode id: ' + episode_id,
+      MovieServiceImpl.name,
+    );
+    const result = await this.movieModel.findOne({ episode_id });
+    if (!result) {
+      return null;
+    }
+    return MovieMapper.toMovieDetails(result);
   }
   updateMovie(id: string, movie: MovieEntity): Promise<MovieEntity> {
     console.info(id, movie);
