@@ -1,20 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { SwapiService } from 'src/infrastructure/movies/swapi.service';
+import { Inject, Injectable } from '@nestjs/common';
+import { IMovieRepository } from 'src/domain/repositories/movie.repository';
+import { MovieServiceImpl } from 'src/infrastructure/database/movie.service';
 import { CustomLogger } from 'src/shared/logger/logger.service';
 
 @Injectable()
 export class GetAllMovieUseCase {
   constructor(
     private readonly logger: CustomLogger,
-    private readonly swapiService: SwapiService,
+    @Inject(MovieServiceImpl)
+    private readonly movieService: IMovieRepository,
   ) {}
 
   async execute() {
     this.logger.log('Get all movies', GetAllMovieUseCase.name);
-    const resultService = await this.swapiService.getAllMovies('1');
+    const result = await this.movieService.getAllMovies();
     return {
       result: true,
-      data: resultService.results,
+      data: result.data,
     };
   }
 }
