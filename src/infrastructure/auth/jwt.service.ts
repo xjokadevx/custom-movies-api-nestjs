@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IGenericResult } from 'src/domain/interfaces/genericResult.interface';
 import { EncryptDecryptService } from '../encryption/encrypt-decrypt.service';
 import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
 import { IJwtPayload } from 'src/domain/interfaces/jwt-payload.interface';
+import constants from 'src/shared/config/constants';
 
 @Injectable()
 export class JwtCustomService implements IJwtServiceInterface {
@@ -14,7 +15,9 @@ export class JwtCustomService implements IJwtServiceInterface {
   ) {}
   async sign(payload: any): Promise<IGenericResult> {
     try {
-      const token = this.jwtService.sign(payload);
+      const token = this.jwtService.sign(payload, {
+        expiresIn: constants.JWT_EXPIRES_IN,
+      });
       const tokenEncrypted =
         await this.encryptDecryptService.encryptWithAES_RSA(token);
       if (!tokenEncrypted.result) {
@@ -33,23 +36,20 @@ export class JwtCustomService implements IJwtServiceInterface {
     }
   }
   async verify(token: string): Promise<IGenericResult> {
-    try {
-      const tokenDecrypted =
-        await this.encryptDecryptService.decryptWithAES_RSA(token);
-      if (!tokenDecrypted.result) {
-        throw new Error(tokenDecrypted.data);
-      }
-      const result = this.jwtService.verify<IJwtPayload>(tokenDecrypted.data);
-      return {
-        result: true,
-        data: result.id,
-      };
-    } catch (error) {
-      console.error('Error verifying token', error);
-      return {
-        result: false,
-        data: 'Error verifying token',
-      };
+    const tokenDecrypted =
+      await this.encryptDecryptService.decryptWithAES_RSA(token);
+    console.info(tokenDecrypted);
+    if (!tokenDecrypted.result) {
+      throw new BadRequestException(
+        'token encrypted wrong.',
+        tokenDecrypted.data,
+      );
     }
+    const result = this.jwtService.verify<IJwtPayload>(tokenDecrypted.data);
+    console.info(result);
+    return {
+      result: true,
+      data: result.phone as string,
+    };
   }
 }

@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AuthController } from './interface/controllers/auth.controller';
-import { LoginUserUseCase } from './application/use-cases/user/login-user.usecase';
 import { SharedModule } from './shared.module';
 import { JWTCustomModule } from './jwt.module';
 import { MongoDBModule } from './mongodb.module';
 import { UserModule } from './user.module';
+import { MoviesModule } from './movies.module';
 
 @Module({
   imports: [
@@ -14,6 +14,7 @@ import { UserModule } from './user.module';
     JWTCustomModule,
     MongoDBModule,
     UserModule,
+    MoviesModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
@@ -24,6 +25,5 @@ import { UserModule } from './user.module';
     }),
   ],
   controllers: [AuthController],
-  providers: [LoginUserUseCase],
 })
 export class AppModule {}

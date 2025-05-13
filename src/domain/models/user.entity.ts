@@ -4,6 +4,7 @@ export class UserEntity {
     public phone: string,
     public name: string,
     public pwd: string,
+    public readonly _id?: any,
   ) {}
 
   updateName(newName: string) {

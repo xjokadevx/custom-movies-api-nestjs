@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IUserRepository } from '../../../domain/repositories/user.repository';
 import { UserEntity } from '../../../domain/models/user.entity';
-import { UserImplementation } from '../../../infrastructure/database/user.implementation';
+import { UserImplementation } from '../../../infrastructure/database/user.service';
 import { SignUpUserDto } from 'src/interface/dtos/requests/signup-request.dto';
 import { CustomLogger } from '../../../shared/logger/logger.service';
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
