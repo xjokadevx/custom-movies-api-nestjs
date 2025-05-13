@@ -37,7 +37,6 @@ export class JwtCustomService implements IJwtServiceInterface {
   }
   verify(token: string): IGenericResult {
     const tokenDecrypted = this.encryptDecryptService.decryptWithAES_RSA(token);
-    console.info(tokenDecrypted);
     if (!tokenDecrypted.result) {
       throw new BadRequestException(
         'token encrypted wrong.',
@@ -45,7 +44,6 @@ export class JwtCustomService implements IJwtServiceInterface {
       );
     }
     const result = this.jwtService.verify<IJwtPayload>(tokenDecrypted.data);
-    console.info(result);
     return {
       result: true,
       data: result.phone as string,

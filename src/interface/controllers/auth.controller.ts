@@ -31,9 +31,7 @@ export class AuthController {
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('login')
   async login(@Body() dto: LoginUserDto): Promise<AuthResponseDto> {
-    console.log(dto);
     const res = await this.loginUseCase.execute(dto);
-    console.info(res);
     return { token: res };
   }
 
@@ -49,9 +47,7 @@ export class AuthController {
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   @Post('signup')
   async signup(@Body() dto: SignUpUserDto): Promise<AuthResponseDto> {
-    console.log(dto);
     const res = await this.signupUseCase.execute(dto);
-    console.info(res);
     return { token: res };
   }
 
