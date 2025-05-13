@@ -14,7 +14,7 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
     if (!result_aeskey) throw new Error('AES_KEY not found');
     this.AES_KEY = result_aeskey.data;
   }
-  encryptWithAES_RSA(to_encrypt: string): Promise<IGenericResult> {
+  encryptWithAES_RSA(to_encrypt: string): IGenericResult {
     try {
       const iv = forge.random.getBytesSync(constants.AES_LENGTH);
       const cipher = forge.cipher.createCipher('AES-CBC', this.AES_KEY);
@@ -22,19 +22,16 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
       cipher.update(forge.util.createBuffer(to_encrypt));
       cipher.finish();
       const encryptedData = forge.util.encode64(iv + cipher.output.getBytes());
-      return Promise.resolve({
+      return {
         result: true,
         data: encryptedData,
-      } as IGenericResult);
+      };
     } catch (error) {
       console.error('ERROR ENCRYPTING DATA USING AES_RSA', error);
-      return Promise.resolve({
-        result: false,
-        data: 'Encryption AES_RSA failed',
-      });
+      throw new Error('Invalid token. Please log in again.');
     }
   }
-  decryptWithAES_RSA(to_decrypt: string): Promise<IGenericResult> {
+  decryptWithAES_RSA(to_decrypt: string): IGenericResult {
     try {
       const rawEncrypted = forge.util.decode64(to_decrypt);
       const ivReceived = rawEncrypted.slice(0, 16);
@@ -46,10 +43,10 @@ export class EncryptDecryptService implements IEncryptServiceInterface {
       decipher.finish();
 
       const decryptedStr = decipher.output.toString();
-      return Promise.resolve({
+      return {
         result: true,
         data: decryptedStr,
-      });
+      };
     } catch (error) {
       console.error('ERROR DECRYPTING DATA USING AES_RSA', error);
       throw new Error('Invalid token. Please log in again.');

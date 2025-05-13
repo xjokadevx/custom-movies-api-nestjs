@@ -1,5 +1,12 @@
 // src/infrastructure/database/mongodb.module.ts
-import { Module, Global, OnModuleDestroy, Inject } from '@nestjs/common';
+import {
+  Module,
+  Global,
+  OnModuleDestroy,
+  Inject,
+  OnApplicationBootstrap,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { MongooseModule, getConnectionToken } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 import { Connection } from 'mongoose';
@@ -18,32 +25,40 @@ import {
     MongooseModule.forRootAsync({
       imports: [SharedModule],
       inject: [ConfigService, EncryptDecryptService],
-      useFactory: async (
+      useFactory: (
         config: ConfigService,
         encryptDecryptService: EncryptDecryptService,
       ) => {
-        const encryptedUri = config.get<string>('MONGO_URI');
-        const encryptedDb = config.get<string>('MONGO_DB');
-        const decryptedUri = await encryptDecryptService.decryptWithAES_RSA(
-          encryptedUri as string,
-        );
-        const decryptedDb = await encryptDecryptService.decryptWithAES_RSA(
-          encryptedDb as string,
-        );
-        return {
-          uri: decryptedUri.data,
-          dbName: decryptedDb.data || 'test',
-        };
+        try {
+          const encryptedUri = config.get<string>('MONGO_URI');
+          const encryptedDb = config.get<string>('MONGO_DB');
+          const decryptedUri = encryptDecryptService.decryptWithAES_RSA(
+            encryptedUri as string,
+          );
+          const decryptedDb = encryptDecryptService.decryptWithAES_RSA(
+            encryptedDb as string,
+          );
+          return {
+            uri: decryptedUri.data,
+            dbName: decryptedDb.data || 'test',
+          };
+        } catch (error) {
+          console.error('Error mongodb connection', error);
+          throw new InternalServerErrorException('Service unavailable');
+        }
       },
     }),
   ],
   exports: [MongooseModule],
 })
-export class MongoDBModule implements OnModuleDestroy {
+export class MongoDBModule implements OnModuleDestroy, OnApplicationBootstrap {
   constructor(
     @Inject(getConnectionToken())
     private readonly connection: Connection,
   ) {}
+  onApplicationBootstrap() {
+    console.log('Mongo connection opened');
+  }
 
   async onModuleDestroy() {
     await this.connection.close();

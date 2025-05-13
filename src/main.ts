@@ -1,8 +1,9 @@
+import helmet from 'helmet';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
-import helmet from 'helmet';
 import { ExceptionsInterceptor } from './interface/interceptors/exception.interceptor';
 import { CustomLogger } from './shared/logger/logger.service';
 
@@ -10,6 +11,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('CONEXA SWAPI CHALLENGE API')

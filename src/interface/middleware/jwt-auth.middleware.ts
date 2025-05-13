@@ -8,7 +8,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
     @Inject(JwtCustomService)
     private readonly jwtService: IJwtServiceInterface,
   ) {}
-  async use(req: Request, res: Response, next: NextFunction) {
+  use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization'] as string;
     if (!authHeader) {
       throw new UnauthorizedException('Bearer token missing');
@@ -19,7 +19,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
     }
 
     try {
-      const payload = await this.jwtService.verify(token);
+      const payload = this.jwtService.verify(token);
       console.info(payload);
       req['user'] = payload;
       next();

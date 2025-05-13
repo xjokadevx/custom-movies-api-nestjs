@@ -13,13 +13,13 @@ export class JwtCustomService implements IJwtServiceInterface {
     private readonly jwtService: JwtService,
     private readonly encryptDecryptService: EncryptDecryptService,
   ) {}
-  async sign(payload: any): Promise<IGenericResult> {
+  sign(payload: any): IGenericResult {
     try {
       const token = this.jwtService.sign(payload, {
         expiresIn: constants.JWT_EXPIRES_IN,
       });
       const tokenEncrypted =
-        await this.encryptDecryptService.encryptWithAES_RSA(token);
+        this.encryptDecryptService.encryptWithAES_RSA(token);
       if (!tokenEncrypted.result) {
         throw new Error(tokenEncrypted.data);
       }
@@ -35,9 +35,8 @@ export class JwtCustomService implements IJwtServiceInterface {
       };
     }
   }
-  async verify(token: string): Promise<IGenericResult> {
-    const tokenDecrypted =
-      await this.encryptDecryptService.decryptWithAES_RSA(token);
+  verify(token: string): IGenericResult {
+    const tokenDecrypted = this.encryptDecryptService.decryptWithAES_RSA(token);
     console.info(tokenDecrypted);
     if (!tokenDecrypted.result) {
       throw new BadRequestException(
