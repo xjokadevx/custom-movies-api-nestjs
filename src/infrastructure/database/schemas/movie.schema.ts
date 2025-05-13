@@ -16,15 +16,15 @@ export class Movie extends Document {
   @Prop({ required: false })
   release_date: string;
   @Prop({ required: false })
-  characters: [string];
+  characters: string[];
   @Prop({ required: false })
-  planets: [string];
+  planets: string[];
   @Prop({ required: false })
-  starships: [string];
+  starships: string[];
   @Prop({ required: false })
-  vehicles: [string];
+  vehicles: string[];
   @Prop({ required: false })
-  species: [string];
+  species: string[];
   @Prop({ required: false })
   created: string;
   @Prop({ required: false })
