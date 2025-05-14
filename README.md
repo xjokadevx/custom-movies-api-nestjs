@@ -5,6 +5,22 @@ This is a traditional backend made in nestjs.
 The power main in this project is S E C U R I T Y implementing AES256, CBC, RSA and JWT.
 This project needs **`Node 18,20,22`** to works correctly.
 
+# More about it
+
+ This project contains the follow technology.
+
+ - Mongo
+ - Github actions CI/CD
+ - Deployment to Render
+ - JWT
+ - AES256 + RSA + CBC
+ - Swagger
+ - Crons executed every day at mindnight
+ - Swapi
+ - Throttler limit rate
+ - Interceptors
+ - Guards
+
 
 # Before to start
 
@@ -45,19 +61,4 @@ For testing, you could use the follow values for these keys: `AES_SECRET_KEY, RS
 Swagger documentation is available in **/api**
 in local environment: http://localhost:3000/api
 
-# More about it
-
- This project contains the follow technology.
-
- - Mongo
- - Github actions CI/CD
- - Deployment to Render
- - JWT
- - AES256 + RSA + CBC
- - Swagger
- - Crons
- - Swapi
- - Throttler limit rate
- - Interceptors
- - Guards
 
