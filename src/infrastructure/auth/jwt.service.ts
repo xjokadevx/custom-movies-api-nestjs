@@ -43,6 +43,17 @@ export class JwtCustomService implements IJwtServiceInterface {
   }
   sign(payload: any): IGenericResult {
     try {
+      if (
+        [null, undefined].includes(payload) ||
+        !payload ||
+        'id' in payload === false ||
+        Object.keys(payload).length === 0
+      ) {
+        return {
+          result: false,
+          data: 'Error generating token',
+        };
+      }
       const token = this.jwtService.sign(payload, {
         expiresIn: constants.JWT_EXPIRES_IN,
       });

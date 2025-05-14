@@ -1,4 +1,3 @@
-
 # NEST JS + AES256 + CBC + RSA + SWAPI + JWT!
 
 This is a traditional backend made in nestjs.
@@ -7,20 +6,20 @@ This project needs **`Node 18,20,22`** to works correctly.
 
 # More about it
 
- This project contains the follow technology.
+This project contains the follow technology.
 
- - Mongo
- - Github actions CI/CD
- - Deployment to Render
- - JWT
- - AES256 + RSA + CBC
- - Swagger
- - Crons executed every day at mindnight
- - Swapi
- - Throttler limit rate
- - Interceptors
- - Guards
-
+- Mongo
+- Github actions CI/CD
+- Deployment to Render
+- JWT
+- AES256 + RSA + CBC
+- Swagger
+- Crons executed every day at mindnight
+- Swapi
+- Throttler limit rate
+- Interceptors
+- Guards
+- Lintstaged + husky for pre-commit actions. (Run validation and tests scripts at every pre commit)
 
 # Before to start
 
@@ -36,7 +35,6 @@ Consult the `.env.example` for set each varible using the specif key for each on
 > Note. Redis keys is not necessary. You could skipping.
 
 For testing, you could use the follow values for these keys: `AES_SECRET_KEY, RSA_PRIVATE_KEY, RSA_PUBLIC_KEY`
-	
 
     AES_SECRET_KEY=cu4QWqe9uuhauNH9ExCo5ZIFmMH9bLThXwkDKdrInLHMkk71XjEmPScroicMX+EBIT4VI8vr9fLvFTHOgytbb/RMEJvqUDYg3TPEiyIkKhR5p7fL+FgrBHOvvfyP9VZ2fgXMWBQR0i6Dtr1sYAk9mB9ZwD6eupLpz3HbroKq0EBapuoMqiOVEQ5h4N1sB5qXsApA15hkiCbfH8y2RT6sNLMLDOr5oJ2e0h//6VSKTT2he9LU5wvDY8PhoAxnSImZWo/iwKOsQSBuYXBvU4rc/J5DfosJx6EV38oA5POAnjZbHFivKY4Ldtq127FyCcOsNREwpCJGk2V6JNmUDog36g==
 
@@ -44,21 +42,14 @@ For testing, you could use the follow values for these keys: `AES_SECRET_KEY, RS
 
     RSA_PUBLIC_KEY=-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnR2Ec3dBK/Nno85AIe20Pzm8ymC1f0HaSTzX+UKmaF2iTdQbueOsdDQyROq6Xg+zuwcPOeU1BxrzNVJZKATxx51smoNZqcYS7qmSq8q48vsnwVocvNg68kqUfsOAjLjn7bgHnaWiwtAJ9nTLzFRoQS9v8UUzX94i0OjggM+N4pd2okXyHAmOPEqiNdGhmD1K0k3wkuEZZwBxdLBpK4YKGRFRalSGGYCSRuUbGaCebL8UEt72/cwF69bruV+5FgW0hD7RW5lqATMgp5RtKqnLbSCfOz7bnvBnfQYJcaFIH3OvrSBxdYz7hSo7h2bHnqpBTTfoawfi392965N7tVnjlQIDAQAB-----END PUBLIC KEY-----
 
-
-
-
-
 # Installation
 
 1. Ensure all dependencies installed using `npm run install`
-2. before to run it as first time, we recommend to you run the validation script using `npm run validate`	
+2. before to run it as first time, we recommend to you run the validation script using `npm run validate`
 3. Script for run it in **local environment** `npm run start:dev`
 4. Script for **run the build** `npm run start`
-
 
 # Documentation
 
 Swagger documentation is available in **/api**
 in local environment: http://localhost:3000/api
-
-
