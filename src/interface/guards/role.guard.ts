@@ -6,9 +6,9 @@ import {
   Inject,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IGenericResult } from 'src/domain/interfaces/genericResult.interface';
-import { IUserRepository } from 'src/domain/repositories/user.repository';
-import { UserServiceImpl } from 'src/infrastructure/database/user.service';
+import { IGenericResult } from '../../domain/interfaces/genericResult.interface';
+import { IUserRepository } from '../../domain/repositories/user.repository';
+import { UserServiceImpl } from '../../infrastructure/database/user.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

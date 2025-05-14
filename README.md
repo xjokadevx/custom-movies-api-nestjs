@@ -3,7 +3,7 @@
 
 This is a traditional backend made in nestjs.
 The power main in this project is S E C U R I T Y implementing AES256, CBC, RSA and JWT.
-This project needs **`Node 16,18,22`** to works correctly.
+This project needs **`Node 18,20,22`** to works correctly.
 
 
 # Before to start
@@ -13,7 +13,7 @@ Run the follow command for generate **RSA KEYS**
 
     npm run secrets
 
-All environment variables must be encrypting using the [follow script](www.google.com) and put them in `.env` file.
+All environment variables must be encrypting using the [follow script](https://github.com/xjokadevx/labs-js) and put them in `.env` file.
 
 Consult the `.env.example` for set each varible using the specif key for each one.
 

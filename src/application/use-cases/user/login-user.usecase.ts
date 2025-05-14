@@ -4,8 +4,8 @@ import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.inte
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
 import { CustomLogger } from '../../../shared/logger/logger.service';
 import { LoginUserDto } from '../../../interface/dtos/requests/login-request.dto';
-import { UserServiceImpl } from 'src/infrastructure/database/user.service';
-import { IUserRepository } from 'src/domain/repositories/user.repository';
+import { UserServiceImpl } from '../../../infrastructure/database/user.service';
+import { IUserRepository } from '../../../domain/repositories/user.repository';
 
 export class LoginUserUseCase {
   constructor(

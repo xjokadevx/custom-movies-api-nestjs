@@ -1,7 +1,7 @@
 import { Inject, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { NextFunction } from 'express';
-import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
-import { JwtCustomService } from 'src/infrastructure/auth/jwt.service';
+import { IJwtServiceInterface } from '../../domain/services/jwtcustom.service.interface';
+import { JwtCustomService } from '../../infrastructure/auth/jwt.service';
 
 export class JwtAuthMiddleware implements NestMiddleware {
   constructor(

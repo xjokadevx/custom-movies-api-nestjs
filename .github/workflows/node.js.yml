@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +21,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
+      - name: Set environment variables
+        run: |
+          echo "SWAPI_URL=${{ secrets.SWAPI_URL }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+          echo "AES_SECRET_KEY=${{ secrets.AES_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "RSA_PRIVATE_KEY=${{ secrets.RSA_PRIVATE_KEY }}" >> $GITHUB_ENV
+          echo "RSA_PUBLIC_KEY=${{ secrets.RSA_PUBLIC_KEY }}" >> $GITHUB_ENV
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> $GITHUB_ENV
+          echo "REDIS_TKN=${{ secrets.REDIS_TKN }}" >> $GITHUB_ENV
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> $GITHUB_ENV
+          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+
       - run: npm run validate --if-present
       - run: npm run build --if-present
 

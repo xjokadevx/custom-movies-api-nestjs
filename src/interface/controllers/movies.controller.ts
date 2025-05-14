@@ -15,18 +15,18 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { GetAllMovieUseCase } from 'src/application/use-cases/movies/getAll-movie.usecase';
+import { GetAllMovieUseCase } from '../../application/use-cases/movies/getAll-movie.usecase';
 import { ErrorResponseDto } from '../dtos/responses/exception-response.dto';
-import { GetDetailsMovieUseCase } from 'src/application/use-cases/movies/getDetails-movie.usecase';
+import { GetDetailsMovieUseCase } from '../../application/use-cases/movies/getDetails-movie.usecase';
 import { MoviesResponseDto } from '../dtos/responses/movies-response.dto';
 import { MovieResponseDto } from '../dtos/responses/movie-response.dto';
 import { RolesGuard } from '../guards/role.guard';
-import { Roles } from 'src/shared/decorators/roles.decorator';
-import { DeleteMovieUseCase } from 'src/application/use-cases/movies/delete-movie.usecase';
+import { Roles } from '../../shared/decorators/roles.decorator';
+import { DeleteMovieUseCase } from '../../application/use-cases/movies/delete-movie.usecase';
 import { MovieChangedResponseDto } from '../dtos/responses/changeMovie-response.dto';
 import { MovieRequestDto } from '../dtos/requests/movie-request.dto';
-import { UpdateMovieUseCase } from 'src/application/use-cases/movies/update-movie.usecase';
-import { SaveMovieUseCase } from 'src/application/use-cases/movies/save-movie.usecase';
+import { UpdateMovieUseCase } from '../../application/use-cases/movies/update-movie.usecase';
+import { SaveMovieUseCase } from '../../application/use-cases/movies/save-movie.usecase';
 import { NewMovieRequestDto } from '../dtos/requests/newMovie-request.dto';
 
 @ApiBearerAuth('access-token')

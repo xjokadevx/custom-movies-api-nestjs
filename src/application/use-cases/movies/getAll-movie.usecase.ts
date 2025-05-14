@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IMovieRepository } from 'src/domain/repositories/movie.repository';
-import { MovieServiceImpl } from 'src/infrastructure/database/movie.service';
-import { CustomLogger } from 'src/shared/logger/logger.service';
+import { IMovieRepository } from '../../../domain/repositories/movie.repository';
+import { MovieServiceImpl } from '../../../infrastructure/database/movie.service';
+import { CustomLogger } from '../../../shared/logger/logger.service';
 
 @Injectable()
 export class GetAllMovieUseCase {
