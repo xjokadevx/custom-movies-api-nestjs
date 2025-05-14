@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
+import { SharedModule } from '../src/shared.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -10,7 +11,7 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [SharedModule, AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();

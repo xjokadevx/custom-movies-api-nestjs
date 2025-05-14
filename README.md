@@ -13,7 +13,7 @@ Run the follow command for generate **RSA KEYS**
 
     npm run secrets
 
-All environment variables must be encrypting using the [follow script](www.google.com) and put them in `.env` file.
+All environment variables must be encrypting using the [follow script](https://github.com/xjokadevx/labs-js) and put them in `.env` file.
 
 Consult the `.env.example` for set each varible using the specif key for each one.
 
