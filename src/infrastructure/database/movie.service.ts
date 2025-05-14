@@ -4,7 +4,7 @@ import { Movie, MovieDocument } from './schemas/movie.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MovieMapper } from './mappers/movieApi.mapper';
-import { CustomLogger } from 'src/shared/logger/logger.service';
+import { CustomLogger } from '../../shared/logger/logger.service';
 import { IMovie } from '../movies/swapi-response.interface';
 import { MovieRequestDto } from 'src/interface/dtos/requests/movie-request.dto';
 import { InternalServerErrorException } from '@nestjs/common';

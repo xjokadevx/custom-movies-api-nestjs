@@ -17,13 +17,31 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/auth/health (GET)', () => {
     return request(app.getHttpServer())
-      .get('/auth/login')
+      .get('/auth/health')
       .expect(200)
       .expect('Hello World!');
   });
-  afterAll(async () => {
+  it('/auth/login (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ phone: 'test', password: 'test' })
+      .expect(400);
+  });
+  it('/auth/login (POST) with valid credentials', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ phone: '8330000000', password: 'Hello1234*.' })
+      .expect(200);
+  });
+  it('/auth/login (POST) with missing fields', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ password: 'Hello1234*.' })
+      .expect(400);
+  });
+  afterEach(async () => {
     await app.close();
   });
 });

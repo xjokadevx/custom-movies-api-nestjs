@@ -4,7 +4,7 @@ import { IGenericResult } from 'src/domain/interfaces/genericResult.interface';
 import { EncryptDecryptService } from '../encryption/encrypt-decrypt.service';
 import { IJwtServiceInterface } from 'src/domain/services/jwtcustom.service.interface';
 import { IJwtPayload } from 'src/domain/interfaces/jwt-payload.interface';
-import constants from 'src/shared/config/constants';
+import constants from '../../shared/config/constants';
 
 @Injectable()
 export class JwtCustomService implements IJwtServiceInterface {

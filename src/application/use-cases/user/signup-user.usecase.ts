@@ -10,7 +10,7 @@ import { UserServiceImpl } from '../../../infrastructure/database/user.service';
 import { SignUpUserDto } from 'src/interface/dtos/requests/signup-request.dto';
 import { CustomLogger } from '../../../shared/logger/logger.service';
 import { JwtCustomService } from '../../../infrastructure/auth/jwt.service';
-import { EncryptDecryptService } from 'src/infrastructure/encryption/encrypt-decrypt.service';
+import { EncryptDecryptService } from '../../../infrastructure/encryption/encrypt-decrypt.service';
 
 @Injectable()
 export class SignUpUseCase {

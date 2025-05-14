@@ -1,6 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { SharedModule } from '../src/shared.module';
 import { AuthController } from '../src/interface/controllers/auth.controller';
 import { LoginUserUseCase } from '../src/application/use-cases/user/login-user.usecase';
 import { JWTCustomModule } from '../src/jwt.module';
@@ -12,6 +10,8 @@ import {
   User,
   UserSchema,
 } from '../src/infrastructure/database/schemas/user.schema';
+import { SignUpUseCase } from '../src/application/use-cases/user/signup-user.usecase';
+import { UserServiceImpl } from '../src/infrastructure/database/user.service';
 
 describe('AppController', () => {
   let authController: AuthController;
@@ -23,7 +23,6 @@ describe('AppController', () => {
     const uri = mongoServer.getUri();
     app = await Test.createTestingModule({
       imports: [
-        SharedModule,
         JWTCustomModule,
         MongooseModule.forRoot(uri),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
@@ -38,7 +37,16 @@ describe('AppController', () => {
         }),
       ],
       controllers: [AuthController],
-      providers: [LoginUserUseCase],
+      providers: [
+        UserServiceImpl,
+        SignUpUseCase,
+        LoginUserUseCase,
+        {
+          provide: 'IUserRepository',
+          useClass: UserServiceImpl,
+        },
+      ],
+      exports: [SignUpUseCase, LoginUserUseCase],
     }).compile();
 
     authController = app.get<AuthController>(AuthController);

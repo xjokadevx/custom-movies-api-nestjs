@@ -44,7 +44,7 @@ export class AuthController {
     return { token: res };
   }
 
-  @Get('login')
+  @Get('health')
   health() {
     return 'Hello World!';
   }

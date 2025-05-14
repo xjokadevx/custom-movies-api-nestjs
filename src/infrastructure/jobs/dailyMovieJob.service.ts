@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { SwapiService } from 'src/infrastructure/movies/swapi.service';
-import { CustomLogger } from 'src/shared/logger/logger.service';
+import { SwapiService } from '../../infrastructure/movies/swapi.service';
+import { CustomLogger } from '../../shared/logger/logger.service';
 import { MovieServiceImpl } from '../database/movie.service';
 
 @Injectable()

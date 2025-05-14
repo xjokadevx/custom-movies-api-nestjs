@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { IMovieServices } from './../../domain/services/movieServices.interface';
-import { CustomLogger } from 'src/shared/logger/logger.service';
-import { EnvConfig } from 'src/shared/config/env';
+import { CustomLogger } from '../../shared/logger/logger.service';
+import { EnvConfig } from '../../shared/config/env';
 import { ISwapiResponse } from './swapi-response.interface';
 import { AxiosError } from 'axios';
 
