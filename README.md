@@ -48,9 +48,10 @@ in local environment: http://localhost:3000/api
 # More about it
 
  This project contains the follow technology.
- 
 
  - Mongo
+ - Github actions CI/CD
+ - Deployment to Render
  - JWT
  - AES256 + RSA + CBC
  - Swagger
