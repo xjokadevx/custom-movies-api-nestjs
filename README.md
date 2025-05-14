@@ -3,7 +3,7 @@
 
 This is a traditional backend made in nestjs.
 The power main in this project is S E C U R I T Y implementing AES256, CBC, RSA and JWT.
-This project needs **`Node 16,18,22`** to works correctly.
+This project needs **`Node 18,20,22`** to works correctly.
 
 
 # Before to start
